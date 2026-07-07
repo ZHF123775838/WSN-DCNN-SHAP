@@ -1,22 +1,35 @@
-def calc(TN, FP, FN, TP):
-    recall = TP / (TP + FN)  # recall
+"""Recalculate metrics from saved predictions or a confusion matrix."""
 
-    Precision = TP / (TP + FP)
-   
-    F1 = (2 * TP) / (2 * TP + FP + FN)
-    
-    return print(f'Recall:{recall:.4f} Precision:{Precision:.4f} F1:{F1:.4f}')
+from __future__ import annotations
 
-# conf_matrix of cnn xgb svm
-conf_matrix_list = [[36646 ,354, 135, 3954],[36597 ,403, 107, 3982],[36378 ,622, 273, 3816]]
-method=['DCNN','XGB','SVM']
+import argparse
 
-for i in range(3):
-    print(f'The result of {method[i]} Normal:')
-    tp,fn,fp,tn=conf_matrix_list[i]
-    calc(tn, fp, fn, tp) 
-    
-    tn, fp, fn, tp = conf_matrix_list[i]
-    print(f'The result of {method[i]} Dos::')
-    calc(tn, fp, fn, tp)
-       
+import pandas as pd
+
+from metrics_utils import binary_metrics
+
+
+def metrics_from_confusion(tn: int, fp: int, fn: int, tp: int) -> dict:
+    y_true = [0] * (tn + fp) + [1] * (fn + tp)
+    y_pred = [0] * tn + [1] * fp + [0] * fn + [1] * tp
+    return binary_metrics(y_true, y_pred)
+
+
+def main() -> None:
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--predictions", default="artifacts/dcnn_sa/predictions.csv")
+    parser.add_argument("--confusion", nargs=4, type=int, metavar=("TN", "FP", "FN", "TP"))
+    args = parser.parse_args()
+
+    if args.confusion:
+        metrics = metrics_from_confusion(*args.confusion)
+    else:
+        df = pd.read_csv(args.predictions)
+        metrics = binary_metrics(df["y_true"], df["y_score"])
+
+    for key, value in metrics.items():
+        print(f"{key}: {value}")
+
+
+if __name__ == "__main__":
+    main()
