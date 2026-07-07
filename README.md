@@ -84,7 +84,7 @@ python baselines.py
 
 Outputs are written to `artifacts/baselines/`.
 
-For a quick smoke test of the baseline code paths:
+For a quick validation run of the baseline code paths:
 
 ```bash
 python baselines.py --selected-features artifacts/shap/selected_features_95.json --max-train-samples 2000

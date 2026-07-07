@@ -37,9 +37,9 @@ confirmation.
    - The committed CSV files contain 45 columns including `id`, `attack_cat`, and `label`; after dropping metadata/target columns and one-hot encoding categorical variables, the effective model feature space differs from the raw column count.
 
 4. Environment availability:
-   - A local `.venv` was created during smoke testing and dependencies from `requirements.txt` were installed successfully.
-   - Smoke tests were run for SHAP feature selection, DCNN+SA training, metric calculation, and baseline models.
-   - Full 50-epoch training was not run during this quick validation pass.
+   - Dependencies from `requirements.txt` were installed successfully in a local virtual environment.
+   - Quick validation runs were completed for SHAP feature selection, DCNN+SA training, metric calculation, and baseline models.
+   - Full 50-epoch training was not run during the quick validation pass.
 
 ## Recommended Author Decision
 
