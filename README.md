@@ -1,10 +1,10 @@
 # Network Traffic Anomaly Detection with SHAP and DCNN+SA
 
-This repository reproduces the workflow described in the manuscript
+This repository provides the source code, data split, and reproduction workflow for the manuscript
 **"An efficient method for network traffic anomaly detection based on SHAP and deep learning"**.
 The target task is binary DoS anomaly detection on the UNSW-NB15 split included in this repository.
 
-## What Matches the Manuscript
+## Method Overview
 
 - Fixed train/test split:
   - `trainset.csv`: 56,000 normal and 12,264 DoS samples
@@ -102,16 +102,15 @@ You can also calculate metrics directly from a confusion matrix:
 python result_calc.py --confusion TN FP FN TP
 ```
 
-## Optional NPZ Export
+## Optional Preprocessed NPZ Export
 
-The previous scripts expected `trainset.npz` and `testset.npz`, but those files were not present in the repository.
-The current workflow reads the committed CSV files directly. If NPZ files are still needed for legacy experiments:
+The main workflow reads the committed CSV files directly. If NPZ files are needed for additional experiments:
 
 ```bash
 python prepare_data.py
 ```
 
-## Expected Manuscript-Level Results
+## Expected Results
 
 The manuscript reports the following representative held-out test results for the SHAP-selected models:
 
@@ -125,8 +124,6 @@ The manuscript reports the following representative held-out test results for th
 | DCNN+SA-SHAP | DoS | 96.70% | 91.78% | 94.18% | 98.81% | 99.04% | 93.55% |
 
 Small numeric differences can occur across TensorFlow, CUDA, LightGBM/XGBoost, and CPU/GPU versions.
-
-See `MANUSCRIPT_ALIGNMENT.md` for known manuscript/data wording mismatches, especially the training normal-sample count.
 
 ## File Guide
 
